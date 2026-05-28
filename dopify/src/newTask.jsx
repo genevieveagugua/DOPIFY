@@ -52,7 +52,7 @@ function SectionCard({ children }) {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export default function NewTask({ onNavigate }) {
+export default function NewTask({ onNavigate, onCreateTask }) {
   const [title, setTitle]           = useState('');
   const [description, setDesc]      = useState('');
   const [date, setDate]             = useState(todayISO());
@@ -70,9 +70,34 @@ export default function NewTask({ onNavigate }) {
     setReward(null);
   }
 
+  function getDueInfo() {
+    if (!time) return date;
+    return `${date} · ${time}`;
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     if (!title.trim()) return;
+
+    const reward = selectedReward
+      ? REWARD_OPTIONS.find((option) => option.id === selectedReward)?.label
+      : customReward || 'Reward Pending';
+
+    const newTask = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      title: title.trim(),
+      description: description.trim(),
+      dueInfo: getDueInfo(),
+      dueType: 'scheduled',
+      badge: null,
+      reward,
+      createdAt: new Date().toISOString(),
+    };
+
+    if (onCreateTask) {
+      onCreateTask(newTask);
+    }
+
     onNavigate('myTasks');
   }
 

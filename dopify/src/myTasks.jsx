@@ -1,29 +1,4 @@
-import { useState } from 'react';
 import { ZapIcon, CheckCircleIcon, ClockIcon, CalendarIcon, PlusIcon } from './components/icons';
-
-// ─── Mock Data ──────────────────────────────────────────────────────────────
-
-const INITIAL_ACTIVE_TASKS = [
-  {
-    id: 1,
-    title: 'Design System Review',
-    dueInfo: 'Due in 2h',
-    dueType: 'urgent',
-    badge: { label: 'High Priority', type: 'priority' },
-  },
-  {
-    id: 2,
-    title: 'Sync with Growth Team',
-    dueInfo: 'Tomorrow, 10:00 AM',
-    dueType: 'scheduled',
-    badge: { label: 'Internal', type: 'category' },
-  },
-];
-
-const INITIAL_COMPLETED_TASKS = [
-  { id: 3, title: 'Update Brand Guidelines', completedInfo: 'Completed Today, 9:30 AM' },
-  { id: 4, title: 'Q4 Strategy Deck',        completedInfo: 'Completed Yesterday' },
-];
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
@@ -55,7 +30,7 @@ function Badge({ label, type }) {
   );
 }
 
-function ActiveTaskCard({ task, onComplete }) {
+function ActiveTaskCard({ task, onComplete, onViewTask }) {
   return (
     <div className="bg-[--color-surface-container-lowest] rounded-3xl px-6 py-5 flex items-center gap-4 shadow-card hover:shadow-card-hover hover:scale-[1.008] transition-all duration-200">
       <Avatar variant="active" />
@@ -81,6 +56,7 @@ function ActiveTaskCard({ task, onComplete }) {
       {/* Actions */}
       <div className="flex items-center gap-3 shrink-0">
         <button
+          onClick={onViewTask}
           className="px-5 py-2 text-sm font-medium rounded-full border border-[--color-outline-variant] text-[--color-on-surface-variant] hover:border-[--color-outline] hover:bg-[--color-surface-container-low] transition-colors duration-150"
           aria-label={`View ${task.title}`}
         >
@@ -98,7 +74,7 @@ function ActiveTaskCard({ task, onComplete }) {
   );
 }
 
-function CompletedTaskCard({ task }) {
+function CompletedTaskCard({ task, onViewTask }) {
   return (
     <div className="bg-[--color-surface-container] rounded-3xl px-6 py-5 flex items-center gap-4 hover:bg-[--color-surface-container-high] transition-colors duration-200">
       <Avatar variant="completed" />
@@ -113,6 +89,7 @@ function CompletedTaskCard({ task }) {
 
       {/* Action */}
       <button
+        onClick={onViewTask}
         className="px-5 py-2 text-sm font-medium rounded-full border border-[--color-outline-variant] text-[--color-on-surface-variant] hover:border-[--color-outline] hover:bg-[--color-surface-container-lowest]/70 transition-colors duration-150 shrink-0"
         aria-label={`View ${task.title}`}
       >
@@ -124,20 +101,11 @@ function CompletedTaskCard({ task }) {
 
 // ─── Main Component ──────────────────────────────────────────────────────────
 
-export default function MyTasks({ onNavigate }) {
-  const [activeTasks, setActiveTasks]       = useState(INITIAL_ACTIVE_TASKS);
-  const [completedTasks, setCompletedTasks] = useState(INITIAL_COMPLETED_TASKS);
-
+export default function MyTasks({ activeTasks = [], completedTasks = [], onNavigate, onViewTask, onCompleteTask }) {
   const totalTasks = activeTasks.length + completedTasks.length;
 
   function handleComplete(taskId) {
-    const task = activeTasks.find((t) => t.id === taskId);
-    if (!task) return;
-    setActiveTasks((prev) => prev.filter((t) => t.id !== taskId));
-    setCompletedTasks((prev) => [
-      { id: task.id, title: task.title, completedInfo: 'Completed just now' },
-      ...prev,
-    ]);
+    if (onCompleteTask) onCompleteTask(taskId);
   }
 
   return (
@@ -171,7 +139,7 @@ export default function MyTasks({ onNavigate }) {
           ) : (
             <div className="flex flex-col gap-3">
               {activeTasks.map((task) => (
-                <ActiveTaskCard key={task.id} task={task} onComplete={handleComplete} />
+                <ActiveTaskCard key={task.id} task={task} onComplete={handleComplete} onViewTask={() => onViewTask(task)} />
               ))}
             </div>
           )}
@@ -194,7 +162,7 @@ export default function MyTasks({ onNavigate }) {
           ) : (
             <div className="flex flex-col gap-3">
               {completedTasks.map((task) => (
-                <CompletedTaskCard key={task.id} task={task} />
+                <CompletedTaskCard key={task.id} task={task} onViewTask={() => onViewTask(task)} />
               ))}
             </div>
           )}
