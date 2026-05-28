@@ -56,7 +56,7 @@ export default function Congrats({ task = {}, onClose, onAddNewTask }) {
           <div className="mt-6 rounded-3xl bg-[--color-primary-fixed] p-5 text-[--color-primary] border border-[--color-primary]">
             <p className="text-sm font-semibold">Reward Unlocked</p>
             <p className="mt-2 text-sm leading-6 text-[--color-on-primary-fixed-variant]">
-              1-Hour Coffee Break &amp; Uninterrupted Reading
+              {reward}
             </p>
           </div>
         </div>
