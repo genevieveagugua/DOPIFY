@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  CalendarIcon,
   ClockIcon,
   SparkleIcon,
   ZapIcon,
@@ -8,12 +7,16 @@ import {
 
 function InfoChip({ label, tone = 'neutral' }) {
   const toneStyles = {
-    neutral: 'bg-[--color-surface-container] text-[--color-on-surface-variant] border border-[--color-outline-variant]',
-    accent: 'bg-[--color-primary-fixed] text-[--color-on-primary-fixed-variant]',
+    neutral:
+      'bg-[--color-surface-container] text-[--color-on-surface-variant]',
+    accent:
+      'bg-[--color-primary-fixed] text-[--color-on-primary-fixed-variant]',
   };
 
   return (
-    <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${toneStyles[tone]}`}>
+    <span
+      className={`inline-flex items-center rounded-full px-4 py-1.5 text-xs font-semibold ${toneStyles[tone]}`}
+    >
       {label}
     </span>
   );
@@ -21,106 +24,191 @@ function InfoChip({ label, tone = 'neutral' }) {
 
 function InfoCard({ icon, label, value }) {
   return (
-    <div className="flex-1 rounded-3xl border border-[--color-outline-variant] bg-[--color-surface-container] p-4">
-      <div className="flex items-center gap-3 text-[--color-primary] mb-4">{icon}</div>
-      <p className="text-xs uppercase tracking-[0.3em] text-[--color-on-surface-variant] mb-2">{label}</p>
-      <p className="font-semibold text-sm text-[--color-on-surface]">{value}</p>
+    <div className="rounded-[24px] bg-[--color-surface-container-low] p-5">
+      <div className="flex items-center gap-4">
+        {icon}
+
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[--color-outline]">
+            {label}
+          </p>
+
+          <p className="mt-1 text-sm font-semibold text-[--color-on-surface]">
+            {value}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default function TaskView({ task = {}, onClose, onComplete }) {
+export default function TaskView({
+  task = {},
+  onClose,
+  onComplete,
+}) {
   const title = task.title || 'Untitled Task';
-  const description = task.description || 'No description provided. Add details to keep the task clear.';
+
+  const description =
+    task.description ||
+    'No description provided. Add details to keep the task clear.';
+
   const dueInfo = task.dueInfo || 'No deadline set';
+
   const reward = task.reward || 'No reward selected';
+
   const chips = [
-    task.badge ? { label: task.badge.label, tone: task.badge.type === 'priority' ? 'accent' : 'neutral' } : null,
-    task.dueType ? { label: task.dueType === 'urgent' ? 'Urgent' : 'Scheduled', tone: task.dueType === 'urgent' ? 'accent' : 'neutral' } : null,
+    task.badge
+      ? {
+          label: task.badge.label,
+          tone:
+            task.badge.type === 'priority'
+              ? 'accent'
+              : 'neutral',
+        }
+      : null,
+
+    task.dueType
+      ? {
+          label:
+            task.dueType === 'urgent'
+              ? 'Urgent'
+              : 'Scheduled',
+          tone:
+            task.dueType === 'urgent'
+              ? 'accent'
+              : 'neutral',
+        }
+      : null,
   ].filter(Boolean);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4 py-8 backdrop-blur-sm">
-      <div
-        className="relative w-full max-w-3xl rounded-[2rem] p-8 shadow-card bg-[--color-surface-container-lowest] bg-opacity-100"
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(28,27,27,0.20)] px-5 py-8 backdrop-blur-md">
+      {/* Modal Card */}
+      <div 
+        className="relative w-full max-w-[540px] overflow-hidden rounded-[32px] border border-[--color-primary]/5 bg-[#fcf9f8] p-7 shadow-[0_10px_30px_-5px_rgba(184,0,76,0.08)]"
+        style={{ backgroundColor: 'var(--color-surface-container-lowest)' }}
       >
+
+        {/* Decorative Glow */}
+        <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[--color-primary-fixed]/20 blur-3xl" />
+
+        {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-5 top-5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[--color-outline-variant] bg-[--color-surface] text-[--color-on-surface-variant] transition hover:bg-[--color-surface-container-low]"
           aria-label="Close task details"
+          className="absolute right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-[--color-surface-container-low] text-lg text-[--color-on-surface] transition-all duration-200 hover:bg-[--color-primary] hover:text-white active:scale-90"
         >
           ×
         </button>
 
-        <div className="flex flex-wrap items-center gap-3 mb-6">
-          {chips.length > 0 ? (
-            chips.map((chip) => <InfoChip key={chip.label} label={chip.label} tone={chip.tone} />)
-          ) : (
-            <InfoChip label="Task Details" tone="neutral" />
-          )}
-        </div>
+        <div className="relative z-10">
 
-        <h1 className="text-4xl font-extrabold text-[--color-on-surface] leading-tight tracking-tight">
-          {title}
-        </h1>
-        <p className="mt-4 max-w-2xl text-sm leading-7 text-[--color-on-surface-variant]">
-          {description}
-        </p>
+          {/* Chips */}
+          <div className="mb-5 flex flex-wrap items-center gap-3">
+            {chips.length > 0 ? (
+              chips.map((chip) => (
+                <InfoChip
+                  key={chip.label}
+                  label={chip.label}
+                  tone={chip.tone}
+                />
+              ))
+            ) : (
+              <InfoChip
+                label="Task Details"
+                tone="neutral"
+              />
+            )}
+          </div>
 
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
-          <InfoCard
-            icon={
-              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[--color-primary-fixed] text-[--color-primary]">
-                <ClockIcon size={18} />
+          {/* Title */}
+          <h1 className="text-[32px] font-extrabold leading-tight tracking-[-0.02em] text-[--color-on-surface]">
+            {title}
+          </h1>
+
+          {/* Description */}
+          <p className="mt-5 text-[15px] leading-8 text-[--color-on-surface-variant]">
+            {description}
+          </p>
+
+          {/* Metadata Cards */}
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+
+            <InfoCard
+              icon={
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[--color-primary-fixed]">
+                  <ClockIcon
+                    size={20}
+                    className="text-[--color-primary]"
+                  />
+                </div>
+              }
+              label="Deadline"
+              value={dueInfo}
+            />
+
+            <InfoCard
+              icon={
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[--color-secondary-fixed]">
+                  <SparkleIcon
+                    size={20}
+                    className="text-[--color-on-secondary-fixed-variant]"
+                  />
+                </div>
+              }
+              label="Reward"
+              value={reward}
+            />
+          </div>
+
+          {/* Progress Section */}
+          <div className="mt-8">
+
+            <div className="mb-2 flex items-center justify-between">
+              <span className="text-sm font-semibold text-[--color-on-surface]">
+                Estimated Completion
               </span>
-            }
-            label="Deadline"
-            value={dueInfo}
-          />
 
-          <InfoCard
-            icon={
-              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-[--color-primary-fixed] text-[--color-primary]">
-                <SparkleIcon size={18} />
+              <span className="text-sm font-semibold text-[--color-primary]">
+                75%
               </span>
-            }
-            label="Reward"
-            value={reward}
-          />
-        </div>
-
-        <div className="mt-8 rounded-3xl bg-[--color-surface-container] p-5">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <p className="text-xs uppercase tracking-[0.28em] text-[--color-on-surface-variant] mb-2">Estimated Completion</p>
-              <p className="text-sm font-semibold text-[--color-on-surface]">75%</p>
             </div>
-            <div className="rounded-full bg-[--color-surface-container-low] px-3 py-2 text-xs font-medium text-[--color-on-surface-variant]">
-              In progress
+
+            <div className="h-3 overflow-hidden rounded-full bg-[--color-tertiary-fixed]">
+              <div
+                className="h-full w-[75%] rounded-full"
+                style={{
+                  background:
+                    'linear-gradient(90deg, #FF8DA1 0%, #F22B6D 100%)',
+                }}
+              />
             </div>
           </div>
-          <div className="mt-4 h-3 w-full overflow-hidden rounded-full bg-[--color-surface-container-low]">
-            <div className="h-full w-[75%] rounded-full bg-[--color-primary] shadow-btn" />
-          </div>
-        </div>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <button
-            type="button"
-            onClick={onComplete}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[--color-primary] px-6 py-3 text-sm font-semibold text-[--color-on-primary] shadow-btn transition hover:opacity-95 active:scale-[0.98]"
-          >
-            <ZapIcon size={18} />
-            Complete Task
-          </button>
-          <button
-            type="button"
-            onClick={onClose}
-            className="inline-flex items-center justify-center rounded-full border border-[--color-primary] bg-transparent px-6 py-3 text-sm font-semibold text-[--color-primary] transition hover:bg-[--color-primary-fixed] hover:text-[--color-on-primary-fixed-variant] active:scale-[0.98]"
-          >
-            Edit Details
-          </button>
+          {/* Action Buttons */}
+          <div className="mt-8 flex flex-col gap-4 border-t border-[--color-outline-variant] pt-5 sm:flex-row">
+
+            {/* Complete Button */}
+            <button
+              type="button"
+              onClick={onComplete}
+              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[--color-primary] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:brightness-110 active:scale-95"
+            >
+              <ZapIcon size={18} />
+              Complete Task
+            </button>
+
+            {/* Secondary Button */}
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex flex-1 items-center justify-center rounded-full border border-[--color-primary] bg-transparent px-6 py-3 text-sm font-semibold text-[--color-primary] transition-colors duration-200 hover:bg-[--color-primary-fixed] active:scale-95"
+            >
+              Edit Details
+            </button>
+          </div>
         </div>
       </div>
     </div>

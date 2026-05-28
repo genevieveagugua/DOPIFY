@@ -10,7 +10,8 @@ export default function Congrats({ task = {}, onClose, onAddNewTask }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4 py-8 backdrop-blur-sm">
       <div
-        className="relative w-full max-w-2xl rounded-[2rem] p-10 shadow-card bg-[--color-surface-container-lowest] bg-opacity-100"
+        className="relative w-full max-w-2xl rounded-[2rem] p-10 shadow-card bg-[--color-surface-container-lowest]"
+        style={{ backgroundColor: 'var(--color-surface-container-lowest)' }}
       >
         <button
           type="button"
@@ -33,7 +34,7 @@ export default function Congrats({ task = {}, onClose, onAddNewTask }) {
 
         <div className="mt-10 rounded-[2rem] bg-white p-8 shadow-card border border-[--color-outline-variant]">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[--color-primary] mb-3">Task Completed</p>
-          <h2 className="text-2xl font-bold text-[--color-on-surface]">{taskTitle}</h2>
+          <h2 className="text-2xl font-bold text-[--color-on-surface]">{title}</h2>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <div className="rounded-3xl bg-[--color-surface-container] p-4">

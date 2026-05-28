@@ -8,18 +8,20 @@ function todayISO() {
 
 // ─── Reward chips data ────────────────────────────────────────────────────────
 const REWARD_OPTIONS = [
-  { id: 'coffee',  emoji: '☕', label: 'Coffee Break' },
+  { id: 'coffee', emoji: '☕', label: 'Coffee Break' },
   { id: 'cupcake', emoji: '🧁', label: 'Cupcake' },
-  { id: 'game',    emoji: '🎮', label: '15-min Game' },
-  { id: 'walk',    emoji: '🚶', label: 'Walk outside' },
+  { id: 'game', emoji: '🎮', label: '15-min Game' },
+  { id: 'walk', emoji: '🚶', label: 'Walk outside' },
 ];
 
-// ─── Reusable sub-components ─────────────────────────────────────────────────
+// ─── Reusable Components ─────────────────────────────────────────────────────
 
-function StepIcon({ icon: Icon }) {
+function StepIcon({ icon: Icon, bg, color }) {
   return (
-    <div className="w-10 h-10 rounded-full bg-[--color-primary-fixed] flex items-center justify-center shrink-0">
-      <Icon size={18} className="text-[--color-primary]" />
+    <div
+      className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 ${bg}`}
+    >
+      <Icon size={18} className={color} />
     </div>
   );
 }
@@ -28,41 +30,57 @@ function FieldLabel({ htmlFor, children }) {
   return (
     <label
       htmlFor={htmlFor}
-      className="block text-xs font-semibold uppercase tracking-widest text-[--color-on-surface-variant] mb-2"
+      className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#8E6872] mb-2 ml-1"
     >
       {children}
     </label>
   );
 }
 
-const inputBase = [
-  'w-full rounded-xl border border-[--color-outline-variant] bg-[--color-surface-container-lowest]',
-  'px-4 py-3 text-sm text-[--color-on-surface] placeholder:text-[--color-outline]',
-  'focus:outline-none focus:border-2 focus:border-[--color-primary]',
-  'transition-colors duration-150',
-].join(' ');
+const inputBase = `
+w-full rounded-2xl border border-[#F4D5DD]
+bg-white
+px-5 py-4
+text-sm text-[#171717]
+placeholder:text-[#B68D98]
+transition-all duration-200
+focus:outline-none
+focus:border-[#F22B6D]
+focus:ring-4 focus:ring-[#F22B6D]/10
+`;
 
 function SectionCard({ children }) {
   return (
-    <div className="bg-[--color-surface-container-lowest] rounded-3xl p-6 shadow-card">
+    <div
+      className="
+      bg-white
+      rounded-[32px]
+      p-7
+      shadow-[0_12px_40px_rgba(242,43,109,0.08)]
+      border border-white
+      "
+    >
       {children}
     </div>
   );
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+// ─── Main Component ──────────────────────────────────────────────────────────
 
 export default function NewTask({ onNavigate, onCreateTask }) {
-  const [title, setTitle]           = useState('');
-  const [description, setDesc]      = useState('');
-  const [date, setDate]             = useState(todayISO());
-  const [time, setTime]             = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDesc] = useState('');
+  const [date, setDate] = useState(todayISO());
+  const [time, setTime] = useState('');
   const [selectedReward, setReward] = useState(null);
-  const [customReward, setCustom]   = useState('');
+  const [customReward, setCustom] = useState('');
 
   function toggleReward(id) {
     setReward((prev) => (prev === id ? null : id));
-    if (id !== null) setCustom('');
+
+    if (id !== null) {
+      setCustom('');
+    }
   }
 
   function handleCustomRewardChange(e) {
@@ -77,6 +95,7 @@ export default function NewTask({ onNavigate, onCreateTask }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+
     if (!title.trim()) return;
 
     const reward = selectedReward
@@ -102,35 +121,51 @@ export default function NewTask({ onNavigate, onCreateTask }) {
   }
 
   return (
-    <main className="min-h-screen bg-[--color-background] pb-32">
+    <main className="min-h-screen bg-[#FFF7FB] pb-40">
       <div className="max-w-2xl mx-auto px-6 py-10">
 
-        {/* Page Header */}
-        <header className="mb-8">
+        {/* Header */}
+        <header className="mb-10">
           <h1
-            className="text-4xl font-extrabold text-[--color-on-surface] tracking-tight"
-            style={{ letterSpacing: '-0.02em' }}
+            className="
+            text-4xl md:text-5xl
+            font-extrabold
+            text-[#171717]
+            tracking-[-0.04em]
+            "
           >
             Create New Task
           </h1>
-          <p className="text-[--color-on-surface-variant] mt-2 text-sm">
+
+          <p className="text-[#7B6670] mt-3 text-[15px] leading-7">
             Break down your goals and reward your progress.
           </p>
         </header>
 
         <form onSubmit={handleSubmit} noValidate>
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-6">
 
-            {/* ── Step 1: Set Task ── */}
+            {/* ── Step 1 ───────────────────────────── */}
             <SectionCard>
-              <div className="flex items-center gap-3 mb-5">
-                <StepIcon icon={ListTaskIcon} />
-                <h2 className="text-lg font-bold text-[--color-on-surface]">1. Set Task</h2>
+              <div className="flex items-center gap-4 mb-6">
+                <StepIcon
+                  icon={ListTaskIcon}
+                  bg="bg-[#FFE5EC]"
+                  color="text-[#F22B6D]"
+                />
+
+                <h2 className="text-[22px] font-bold text-[#171717] tracking-[-0.02em]">
+                  1. Set Task
+                </h2>
               </div>
 
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-5">
+
                 <div>
-                  <FieldLabel htmlFor="task-title">Task Title</FieldLabel>
+                  <FieldLabel htmlFor="task-title">
+                    Task Title
+                  </FieldLabel>
+
                   <input
                     id="task-title"
                     type="text"
@@ -143,28 +178,43 @@ export default function NewTask({ onNavigate, onCreateTask }) {
                 </div>
 
                 <div>
-                  <FieldLabel htmlFor="task-desc">Description (Optional)</FieldLabel>
+                  <FieldLabel htmlFor="task-desc">
+                    Description (Optional)
+                  </FieldLabel>
+
                   <textarea
                     id="task-desc"
-                    className={`${inputBase} resize-none h-28`}
+                    className={`${inputBase} resize-none min-h-[120px]`}
                     placeholder="Add some context or specific steps..."
                     value={description}
                     onChange={(e) => setDesc(e.target.value)}
                   />
                 </div>
+
               </div>
             </SectionCard>
 
-            {/* ── Step 2: Set Deadline ── */}
+            {/* ── Step 2 ───────────────────────────── */}
             <SectionCard>
-              <div className="flex items-center gap-3 mb-5">
-                <StepIcon icon={ClockIcon} />
-                <h2 className="text-lg font-bold text-[--color-on-surface]">2. Set Deadline</h2>
+              <div className="flex items-center gap-4 mb-6">
+                <StepIcon
+                  icon={ClockIcon}
+                  bg="bg-[#FFE8EE]"
+                  color="text-[#FF6B8E]"
+                />
+
+                <h2 className="text-[22px] font-bold text-[#171717] tracking-[-0.02em]">
+                  2. Set Deadline
+                </h2>
               </div>
 
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-5">
+
                 <div>
-                  <FieldLabel htmlFor="task-date">Date</FieldLabel>
+                  <FieldLabel htmlFor="task-date">
+                    Date
+                  </FieldLabel>
+
                   <input
                     id="task-date"
                     type="date"
@@ -175,7 +225,10 @@ export default function NewTask({ onNavigate, onCreateTask }) {
                 </div>
 
                 <div>
-                  <FieldLabel htmlFor="task-time">Time (Optional)</FieldLabel>
+                  <FieldLabel htmlFor="task-time">
+                    Time (Optional)
+                  </FieldLabel>
+
                   <input
                     id="task-time"
                     type="time"
@@ -184,31 +237,62 @@ export default function NewTask({ onNavigate, onCreateTask }) {
                     onChange={(e) => setTime(e.target.value)}
                   />
                 </div>
+
               </div>
             </SectionCard>
 
-            {/* ── Step 3: Set Reward ── */}
+            {/* ── Step 3 ───────────────────────────── */}
             <SectionCard>
-              <div className="flex items-center gap-3 mb-5">
-                <StepIcon icon={SparkleIcon} />
-                <h2 className="text-lg font-bold text-[--color-on-surface]">3. Set Reward</h2>
+              <div className="flex items-center gap-4 mb-6">
+                <StepIcon
+                  icon={SparkleIcon}
+                  bg="bg-[#FFF0F4]"
+                  color="text-[#F22B6D]"
+                />
+
+                <h2 className="text-[22px] font-bold text-[#171717] tracking-[-0.02em]">
+                  3. Set Reward
+                </h2>
               </div>
 
               {/* Reward Chips */}
-              <div className="flex flex-wrap gap-3 mb-5">
+              <div className="flex flex-wrap gap-3 mb-6">
                 {REWARD_OPTIONS.map(({ id, emoji, label }) => {
                   const isSelected = selectedReward === id;
+
                   return (
                     <button
                       key={id}
                       type="button"
                       onClick={() => toggleReward(id)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-150 ${
-                        isSelected
-                          ? 'bg-[--color-primary-fixed] border-[--color-primary] text-[--color-on-primary-fixed-variant]'
-                          : 'border-[--color-outline-variant] text-[--color-on-surface-variant] hover:border-[--color-outline] hover:bg-[--color-surface-container-low]'
-                      }`}
                       aria-pressed={isSelected}
+                      className={`
+                        px-5 py-3
+                        rounded-full
+                        text-sm font-semibold
+                        transition-all duration-200
+                        border
+                        flex items-center gap-2
+                        hover:scale-[1.02]
+                        active:scale-[0.98]
+
+                        ${
+                          isSelected
+                            ? `
+                              bg-[#F22B6D]
+                              text-white
+                              border-[#F22B6D]
+                              shadow-[0_8px_24px_rgba(242,43,109,0.25)]
+                            `
+                            : `
+                              bg-[#FFF8FA]
+                              text-[#7A616B]
+                              border-[#F4D5DD]
+                              hover:bg-[#FFE5EC]
+                              hover:border-[#FF8DA1]
+                            `
+                        }
+                      `}
                     >
                       <span>{emoji}</span>
                       {label}
@@ -219,7 +303,10 @@ export default function NewTask({ onNavigate, onCreateTask }) {
 
               {/* Custom Reward */}
               <div>
-                <FieldLabel htmlFor="custom-reward">Custom Reward</FieldLabel>
+                <FieldLabel htmlFor="custom-reward">
+                  Custom Reward
+                </FieldLabel>
+
                 <input
                   id="custom-reward"
                   type="text"
@@ -230,19 +317,43 @@ export default function NewTask({ onNavigate, onCreateTask }) {
                 />
               </div>
             </SectionCard>
-
           </div>
 
-          {/* ── Create Task Button (sticky bottom) ── */}
-          <div className="fixed bottom-0 left-0 right-0 px-6 py-5 bg-[--color-background]/90 backdrop-blur-sm">
+          {/* ── Sticky Bottom CTA ─────────────────── */}
+          <div
+            className="
+            fixed bottom-0 left-0 right-0
+            px-6 py-5
+            bg-[#FFF7FB]/90
+            backdrop-blur-xl
+            border-t border-[#FFE5EC]
+            "
+          >
             <div className="max-w-2xl mx-auto">
               <button
                 type="submit"
                 disabled={!title.trim()}
-                className="w-full flex items-center justify-center gap-2.5 py-4 rounded-full bg-[--color-primary-container] text-[--color-on-primary-container] font-semibold text-base shadow-btn hover:opacity-90 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-150"
+                className="
+                w-full
+                flex items-center justify-center gap-3
+                py-5 px-8
+                rounded-full
+                bg-[#F22B6D]
+                text-white
+                font-bold
+                text-[16px]
+                tracking-[-0.01em]
+                shadow-[0_14px_40px_rgba(242,43,109,0.35)]
+                hover:brightness-110
+                hover:scale-[1.01]
+                active:scale-[0.98]
+                disabled:opacity-40
+                disabled:cursor-not-allowed
+                transition-all duration-200
+                "
               >
                 Create Task
-                <ZapIcon size={16} />
+                <ZapIcon size={18} />
               </button>
             </div>
           </div>
