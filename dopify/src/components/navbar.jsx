@@ -3,8 +3,8 @@ import { UserCircleIcon } from './icons';
 export default function Navbar({ activePage, onNavigate }) {
   const links = [
     { id: 'home', label: 'Home' },
-    { id: 'myTasks', label: 'My Tasks' },
     { id: 'newTask', label: 'New Task' },
+    { id: 'myTasks', label: 'My Tasks' },
   ];
 
   return (
