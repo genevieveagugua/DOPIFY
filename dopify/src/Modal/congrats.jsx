@@ -1,5 +1,6 @@
 import React from 'react';
 import { CalendarIcon, ZapIcon } from '../components/icons';
+import { modals, buttons } from '../styles/classNames';
 
 export default function Congrats({ task = {}, onClose, onAddNewTask }) {
   const title = task.title || 'Quarterly Brand Audit';
@@ -8,9 +9,9 @@ export default function Congrats({ task = {}, onClose, onAddNewTask }) {
   const reward = task.reward || '1-Hour Coffee Break & Uninterrupted Reading';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4 py-8 backdrop-blur-sm">
+    <div className={modals.congratsOverlay}>
       <div
-        className="relative w-full max-w-2xl rounded-[2rem] p-10 shadow-card bg-[--color-surface-container-lowest]"
+        className={modals.congratsCard}
         style={{ backgroundColor: 'var(--color-surface-container-lowest)' }}
       >
         <button

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Navbar from './components/navbar';
+import LandingPage from './landingPage';
 import MyTasks from './myTasks';
 import NewTask from './newTask';
 import Congrats from './Modal/congrats';
@@ -13,7 +14,7 @@ const DEFAULT_TASKS = {
 };
 
 export default function App() {
-  const [activePage, setActivePage] = useState('myTasks');
+  const [activePage, setActivePage] = useState('home');
   const [taskViewOpen, setTaskViewOpen] = useState(false);
   const [congratsOpen, setCongratsOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -59,6 +60,8 @@ export default function App() {
 
   function renderPage() {
     switch (activePage) {
+      case 'home':
+        return <LandingPage onNavigate={setActivePage} />;
       case 'myTasks':
         return (
           <MyTasks
@@ -76,7 +79,7 @@ export default function App() {
       default:
         return (
           <main className="min-h-screen bg-[--color-page-bg] flex items-center justify-center">
-            <p className="text-gray-400 text-sm">Home page coming soon</p>
+            <p className="text-gray-400 text-sm">Genevieve's page!!!</p>
           </main>
         );
     }

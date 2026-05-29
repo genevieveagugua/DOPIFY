@@ -4,6 +4,7 @@ import {
   SparkleIcon,
   ZapIcon,
 } from '../components/icons';
+import { modals, buttons } from '../styles/classNames';
 
 function InfoChip({ label, tone = 'neutral' }) {
   const toneStyles = {
@@ -83,10 +84,10 @@ export default function TaskView({
   ].filter(Boolean);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(28,27,27,0.20)] px-5 py-8 backdrop-blur-md">
+    <div className={modals.overlay}>
       {/* Modal Card */}
       <div 
-        className="relative w-full max-w-[540px] overflow-hidden rounded-[32px] border border-[--color-primary]/5 bg-[#fcf9f8] p-7 shadow-[0_10px_30px_-5px_rgba(184,0,76,0.08)]"
+        className={modals.card}
         style={{ backgroundColor: 'var(--color-surface-container-lowest)' }}
       >
 
@@ -98,7 +99,7 @@ export default function TaskView({
           type="button"
           onClick={onClose}
           aria-label="Close task details"
-          className="absolute right-5 top-5 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-[--color-surface-container-low] text-lg text-[--color-on-surface] transition-all duration-200 hover:bg-[--color-primary] hover:text-white active:scale-90"
+          className={modals.closeButton}
         >
           ×
         </button>
