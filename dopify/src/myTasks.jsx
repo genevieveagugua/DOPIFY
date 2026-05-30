@@ -148,8 +148,6 @@ export default function MyTasks({
   onViewTask,
   onCompleteTask,
 }) {
-  const totalTasks = activeTasks.length + completedTasks.length;
-
   function handleComplete(taskId) {
     if (onCompleteTask) onCompleteTask(taskId);
   }

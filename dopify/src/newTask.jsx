@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ListTaskIcon, ClockIcon, SparkleIcon, ZapIcon } from './components/icons';
-import { layouts, headers, cards, buttons, inputs, stepIcons, rewardChips, misc } from './styles/classNames';
+import { layouts, headers, cards, buttons, inputs, stepIcons, rewardChips } from './styles/classNames';
 
 // ─── Today's date in YYYY-MM-DD format ───────────────────────────────────────
 function todayISO() {

@@ -1,10 +1,9 @@
-import React from 'react';
 import {
   ClockIcon,
   SparkleIcon,
   ZapIcon,
 } from '../components/icons';
-import { modals, buttons } from '../styles/classNames';
+import { modals } from '../styles/classNames';
 
 function InfoChip({ label, tone = 'neutral' }) {
   const toneStyles = {

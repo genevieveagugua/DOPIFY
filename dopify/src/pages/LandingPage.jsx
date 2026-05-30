@@ -1,11 +1,17 @@
-import React from 'react';
-import { layouts, headers, buttons, landing } from './styles/classNames';
+import { useNavigate } from 'react-router-dom';
+import { layouts, buttons, landing } from '../styles/classNames';
 
-export default function LandingPage({ onNavigate }) {
+/**
+ * Landing Page
+ * Uses React Router (useNavigate) for navigation
+ */
+export default function LandingPage() {
+  const navigate = useNavigate();
+
   return (
     <main className={layouts.mainContainer}>
       {/* Hero Section */}
-      <section className={landing.container}>
+      <section className="relative px-6 md:px-8 max-w-7xl mx-auto pt-20 pb-24 text-center overflow-visible">
         <div className="max-w-4xl mx-auto space-y-12 relative z-10">
           {/* Logo */}
           <h1 className="text-[80px] md:text-[80px] font-black text-[#F22B6D] tracking-tighter text-hero-shadow">
@@ -27,7 +33,7 @@ export default function LandingPage({ onNavigate }) {
           {/* CTA Buttons */}
           <div className="pt-8 flex justify-center items-center gap-4 flex-wrap">
             <button
-              onClick={() => onNavigate('newTask')}
+              onClick={() => navigate('/create')}
               className={buttons.ctaGlow}
             >
               Start Now
@@ -56,7 +62,7 @@ export default function LandingPage({ onNavigate }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
           {/* Card 1: Set a task */}
           <div className={landing.cardContainer} style={{animation: 'fadeInUp 0.8s ease-out 0.1s forwards'}}>
-            <div className="w-20 h-20 bg-[#FFD9DE]/50 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
+            <div className="w-20 h-20 bg-[#FFD9DE]/50 rounded-3xl flex items-center justify-center mb-10">
               <svg
                 className="w-10 h-10 text-[#F22B6D]"
                 fill="none"
@@ -81,7 +87,7 @@ export default function LandingPage({ onNavigate }) {
 
           {/* Card 2: Set a deadline */}
           <div className={`${landing.cardContainer} md:mt-12`} style={{animation: 'fadeInUp 0.8s ease-out 0.2s forwards'}}>
-            <div className="w-20 h-20 bg-[#FFD9DD]/50 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
+            <div className="w-20 h-20 bg-[#FFD9DD]/50 rounded-3xl flex items-center justify-center mb-10">
               <svg
                 className="w-10 h-10 text-[#9C3F53]"
                 fill="none"
@@ -106,7 +112,7 @@ export default function LandingPage({ onNavigate }) {
 
           {/* Card 3: Set a reward */}
           <div className={landing.cardContainer} style={{animation: 'fadeInUp 0.8s ease-out 0.3s forwards'}}>
-            <div className="w-20 h-20 bg-[#F6DCE3]/50 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
+            <div className="w-20 h-20 bg-[#F6DCE3]/50 rounded-3xl flex items-center justify-center mb-10">
               <svg
                 className="w-10 h-10 text-[#6A575D]"
                 fill="none"
@@ -133,7 +139,7 @@ export default function LandingPage({ onNavigate }) {
 
       {/* Final CTA Section */}
       <section className="px-6 md:px-8 max-w-7xl mx-auto py-24">
-        <div className={landing.finalCtaContainer}>
+        <div className="rounded-[48px] p-16 md:p-24 text-center relative overflow-hidden text-white bg-[#F22B6D] shadow-2xl">
           <div className="relative z-10 max-w-2xl mx-auto space-y-10">
             <h3 className="text-[44px] md:text-[44px] font-black tracking-tight leading-tight">
               Ready to transform your productivity?
@@ -143,7 +149,7 @@ export default function LandingPage({ onNavigate }) {
             </p>
             <div className="pt-4">
               <button
-                onClick={() => onNavigate('newTask')}
+                onClick={() => navigate('/create')}
                 className="bg-white text-[#F22B6D] font-bold text-lg uppercase tracking-widest px-16 py-6 rounded-full shadow-2xl hover:scale-105 hover:bg-[#FFF7FB] active:scale-95 transition-all duration-200"
               >
                 Start Your First Task

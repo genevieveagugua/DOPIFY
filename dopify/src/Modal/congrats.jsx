@@ -1,6 +1,5 @@
-import React from 'react';
 import { CalendarIcon, ZapIcon } from '../components/icons';
-import { modals, buttons } from '../styles/classNames';
+import { modals } from '../styles/classNames';
 
 export default function Congrats({ task = {}, onClose, onAddNewTask }) {
   const title = task.title || 'Quarterly Brand Audit';

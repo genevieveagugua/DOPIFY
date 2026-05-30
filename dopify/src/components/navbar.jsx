@@ -1,11 +1,22 @@
+import { useNavigate, useLocation } from 'react-router-dom';
 import { UserCircleIcon } from './icons';
 
-export default function Navbar({ activePage, onNavigate }) {
+/**
+ * Navbar Component
+ * Module 2: React Router (useNavigate, useLocation hooks)
+ */
+export default function Navbar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const links = [
-    { id: 'home', label: 'Home' },
-    { id: 'newTask', label: 'New Task' },
-    { id: 'myTasks', label: 'My Tasks' },
+    { path: '/', label: 'Home' },
+    { path: '/create', label: 'New Task' },
+    { path: '/tasks', label: 'My Tasks' },
   ];
+
+  // Map route paths to nav link active states
+  const getIsActive = (path) => location.pathname === path;
 
   return (
     <nav
@@ -27,7 +38,7 @@ export default function Navbar({ activePage, onNavigate }) {
       >
         {/* Logo */}
         <button
-          onClick={() => onNavigate('home')}
+          onClick={() => navigate('/')}
           className="
           text-[28px]
           font-extrabold
@@ -42,13 +53,13 @@ export default function Navbar({ activePage, onNavigate }) {
 
         {/* Nav Links */}
         <div className="flex items-center gap-8">
-          {links.map(({ id, label }) => {
-            const isActive = activePage === id;
+          {links.map(({ path, label }) => {
+            const isActive = getIsActive(path);
 
             return (
               <button
-                key={id}
-                onClick={() => onNavigate(id)}
+                key={path}
+                onClick={() => navigate(path)}
                 aria-current={isActive ? 'page' : undefined}
                 className={`
                   relative
